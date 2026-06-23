@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Brand accent — single source of truth, mirrored from lib/brand.ts */
+  --brand: #ffd500;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Content region: light by default, flips to canvas in dark mode.
+     The sidebar is theme-independent (always dark) and sets its own bg. */
+  body {
+    @apply bg-gray-100 text-ink-faint dark:bg-canvas dark:text-ink-muted;
+    font-feature-settings: "cv11", "ss01";
+  }
+}
+
+@layer components {
+  /* Active-nav highlight: flush-left, rounded right edge only. */
+  .rounded-nav {
+    border-radius: 0 16px 16px 0;
+  }
+
+  /* Five KPI glass tints over the dark canvas. */
+  .tint-indigo {
+    background-color: var(--tw-tint, rgba(30, 27, 75, 0.3));
+  }
+}
+
+/* Thin, theme-aware scrollbar for the sidebar nav. */
+.nav-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #374151 transparent;
+}
+.nav-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.nav-scroll::-webkit-scrollbar-thumb {
+  background-color: #374151;
+  border-radius: 9999px;
+}
