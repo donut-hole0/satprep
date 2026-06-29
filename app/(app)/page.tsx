@@ -1,27 +1,35 @@
 import { GreetingBar } from "@/components/home/GreetingBar";
-import { StatsStrip } from "@/components/home/StatsStrip";
 import { KpiCards } from "@/components/home/KpiCards";
-import { ScorePromo } from "@/components/home/ScorePromo";
-import { SummerCard } from "@/components/home/SummerCard";
-import { VideoList } from "@/components/home/VideoList";
-import { LegalFooter } from "@/components/home/LegalFooter";
-import { getProfile, getDerivedStats } from "@/lib/data/queries";
+import { TopicsList } from "@/components/home/TopicsList";
+import { TestDateCard } from "@/components/home/TestDateCard";
+import {
+  getProfile,
+  getDerivedStats,
+  getTopicGroups,
+} from "@/lib/data/queries";
 
 export default async function HomePage() {
-  const [profile, stats] = await Promise.all([
+  const [profile, stats, groups] = await Promise.all([
     getProfile(),
     getDerivedStats(),
+    getTopicGroups(),
   ]);
 
+  const totalQuestions = groups.reduce((sum, g) => sum + g.total, 0);
+
   return (
-    <div className="mx-auto max-w-6xl space-y-6 py-2">
-      {profile && <GreetingBar profile={profile} />}
-      <StatsStrip />
+    <div className="mx-auto max-w-[860px] space-y-7">
+      <GreetingBar
+        firstName={profile?.firstName ?? "there"}
+        streak={stats.streak}
+        totalQuestions={totalQuestions}
+      />
       <KpiCards stats={stats} />
-      <ScorePromo />
-      <SummerCard />
-      <VideoList />
-      <LegalFooter />
+      <TopicsList groups={groups} />
+      <TestDateCard
+        daysUntilTest={profile?.daysUntilTest ?? null}
+        subject={profile?.activeSubject ?? "SAT"}
+      />
     </div>
   );
 }

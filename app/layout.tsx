@@ -12,6 +12,7 @@ export const metadata: Metadata = {
 };
 
 // Set the theme class before paint to avoid a flash of the wrong theme.
+// The app is dark by default; only honor an explicit light preference.
 const themeScript = `(function(){try{var t=localStorage.getItem('aceboard-theme');if(t!=='light'){document.documentElement.classList.add('dark');}}catch(e){document.documentElement.classList.add('dark');}})();`;
 
 export default function RootLayout({
@@ -20,7 +21,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={inter.variable}
+      suppressHydrationWarning
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>

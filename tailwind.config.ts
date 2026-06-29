@@ -21,6 +21,13 @@ const config: Config = {
           DEFAULT: "var(--brand)",
           deep: "#135673", // teal subject-switcher background
         },
+        // OnePrep identity (exact, lifted from the live site).
+        sidebar: "#135673", // teal left rail
+        cta: {
+          DEFAULT: "#1CB0F6", // primary action blue
+          fg: "#CEFBFF", // text on the blue CTA
+        },
+        promo: "#DB2777", // pink promo / sale banner (Tailwind pink-600)
         // Core surfaces
         canvas: "#111827", // gray-900 — app body + sidebar
         panel: "#1F2A2E", // tinted slate-teal panel / pills

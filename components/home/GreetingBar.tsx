@@ -1,62 +1,51 @@
-import { Play, Target, CalendarDays, BarChart3, Pencil } from "lucide-react";
 import Link from "next/link";
-import type { ProfileData } from "@/lib/data/queries";
+import { ArrowRight } from "lucide-react";
 
-function StatusPill({
-  icon,
-  children,
-}: {
-  icon: React.ReactNode;
-  children: React.ReactNode;
-}) {
-  return (
-    <span className="flex h-9 items-center gap-2 rounded-full border border-line-light bg-white px-3 text-[14px] font-medium text-ink-faint transition-colors duration-150 ease-standard dark:border-line-subtle/80 dark:bg-panel dark:text-ink-body">
-      {icon}
-      {children}
-      <Pencil size={13} className="ml-0.5 text-ink-muted" />
-    </span>
-  );
+function greeting() {
+  const h = new Date().getHours();
+  if (h < 12) return "Good morning";
+  if (h < 18) return "Good afternoon";
+  return "Good evening";
 }
 
-export function GreetingBar({ profile }: { profile: ProfileData }) {
+export function GreetingBar({
+  firstName,
+  streak,
+  totalQuestions,
+}: {
+  firstName: string;
+  streak: number;
+  totalQuestions: number;
+}) {
+  const streakLine =
+    streak > 0
+      ? `You're on a ${streak}-day streak.`
+      : "Start a streak today.";
+
   return (
-    <div className="flex flex-wrap items-center justify-between gap-3">
-      <div className="flex flex-wrap items-center gap-3">
-        <h1 className="text-2xl text-ink-faint dark:text-ink-primary">
-          Hi {profile.firstName} <span className="align-middle">👋</span>
-        </h1>
+    <div>
+      <h2 className="text-[26px] font-semibold tracking-tight text-white">
+        {greeting()}, {firstName}
+      </h2>
+      <p className="mt-1.5 text-[14.5px] text-white/55">
+        {streakLine} {totalQuestions} question
+        {totalQuestions === 1 ? "" : "s"} ready in your bank.
+      </p>
+      <div className="mt-5 flex flex-wrap items-center gap-3">
         <Link
           href="/question-bank"
-          className="flex h-9 items-center gap-2 rounded-full border border-line-light bg-white px-3 text-[14px] font-medium text-ink-faint transition-colors duration-150 ease-standard hover:border-brand dark:border-line-subtle/80 dark:bg-panel dark:text-ink-body"
+          style={{ backgroundColor: "#3E5FE0" }}
+          className="inline-flex items-center gap-2 rounded-[10px] px-5 py-2.5 text-[14px] font-medium text-white transition-[filter] duration-150 hover:brightness-110"
         >
-          <span
-            className="grid h-5 w-5 place-items-center rounded-full"
-            style={{ backgroundColor: "var(--brand)" }}
-          >
-            <Play size={11} className="ml-0.5 fill-panel text-panel" />
-          </span>
-          Start Today&apos;s Session
+          Start today&apos;s session
+          <ArrowRight size={16} />
         </Link>
-      </div>
-
-      <div className="flex flex-wrap items-center gap-2">
-        <StatusPill icon={<Target size={15} className="text-accent-red" />}>
-          Goal: {profile.goalScore}
-        </StatusPill>
-        <StatusPill
-          icon={<CalendarDays size={15} className="text-accent-blue" />}
+        <Link
+          href="/question-bank"
+          className="inline-flex items-center gap-2 rounded-[10px] border border-white/[0.12] px-4 py-2.5 text-[14px] font-medium text-white/85 transition-colors duration-150 hover:bg-white/[0.06]"
         >
-          {profile.daysUntilTest != null
-            ? `${profile.daysUntilTest} days until test`
-            : "Set your test date"}
-        </StatusPill>
-        <StatusPill
-          icon={<BarChart3 size={15} className="text-accent-amber" />}
-        >
-          {profile.currentScore != null
-            ? `Current: ${profile.currentScore}`
-            : "No score yet"}
-        </StatusPill>
+          Browse question bank
+        </Link>
       </div>
     </div>
   );

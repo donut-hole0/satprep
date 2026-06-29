@@ -1,30 +1,24 @@
-import { PanelLeftClose } from "lucide-react";
 import { Logo } from "./Logo";
 import { SubjectSwitcher } from "./SubjectSwitcher";
 import { SidebarNav } from "./SidebarNav";
+import { brand } from "@/lib/brand";
 
 /**
- * Persistent left rail. Theme-independent — stays dark (canvas) in both
- * light and dark mode. Fixed ~256px width app shell.
+ * Persistent left rail as a floating rounded panel (Keychron-launcher style).
+ * Theme-independent dark surface.
  */
 export function Sidebar({ subject }: { subject: string }) {
   return (
-    <aside className="hidden h-screen w-64 shrink-0 flex-col bg-canvas md:flex">
-      <div className="px-5 pb-4 pt-5">
+    <aside className="hidden w-[244px] shrink-0 flex-col rounded-2xl border border-white/[0.06] bg-[#1A1A1A] p-3 md:flex">
+      <div className="px-2 pb-5 pt-3">
         <Logo />
       </div>
-      <div className="px-4 pb-3">
+      <div className="mb-4">
         <SubjectSwitcher subject={subject} />
       </div>
       <SidebarNav />
-      <div className="border-t border-line-subtle/60 px-3 py-2">
-        <button
-          type="button"
-          title="Collapse sidebar"
-          className="flex h-9 w-9 items-center justify-center rounded text-ink-muted transition-colors duration-150 ease-standard hover:bg-white/5 hover:text-white"
-        >
-          <PanelLeftClose size={18} />
-        </button>
+      <div className="px-2 pt-3 text-[12px] text-white/30">
+        {brand.name} · v1.0
       </div>
     </aside>
   );
